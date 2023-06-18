@@ -1,4 +1,6 @@
 using System.Data.SqlClient;
+using OpenDBDiff.Abstractions.Schema.Events;
+using OpenDBDiff.SqlServer.Schema.Generates.Util;
 using OpenDBDiff.SqlServer.Schema.Model;
 
 namespace OpenDBDiff.SqlServer.Schema.Generates
@@ -21,6 +23,7 @@ namespace OpenDBDiff.SqlServer.Schema.Generates
         {
             if (database.Options.Ignore.FilterSchema)
             {
+                root.RaiseOnReading(new ProgressEventArgs("Reading schemas...", Constants.READING_SCHEMAS));
                 using (SqlConnection conn = new SqlConnection(connectioString))
                 {
                     using (SqlCommand command = new SqlCommand(GetSQL(), conn))

@@ -1,4 +1,6 @@
 using System.Data.SqlClient;
+using OpenDBDiff.Abstractions.Schema.Events;
+using OpenDBDiff.SqlServer.Schema.Generates.Util;
 using OpenDBDiff.SqlServer.Schema.Model;
 
 namespace OpenDBDiff.SqlServer.Schema.Generates
@@ -24,8 +26,9 @@ namespace OpenDBDiff.SqlServer.Schema.Generates
             return SQLQueries.SQLQueryFactory.Get("GetFileGroups");
         }
 
-        private static void FillFiles(FileGroup filegroup, string connectionString)
+        private void FillFiles(FileGroup filegroup, string connectionString)
         {
+            root.RaiseOnReading(new ProgressEventArgs("Reading file groups...", Constants.READING_FILEGROUPS));
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using (SqlCommand command = new SqlCommand(GetSQLFile(filegroup), conn))

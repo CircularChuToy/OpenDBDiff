@@ -1,5 +1,6 @@
 using System;
 using System.Data.SqlClient;
+using OpenDBDiff.Abstractions.Schema.Events;
 using OpenDBDiff.SqlServer.Schema.Generates.Util;
 using OpenDBDiff.SqlServer.Schema.Model;
 
@@ -29,10 +30,11 @@ namespace OpenDBDiff.SqlServer.Schema.Generates
             return ByteToHexEncoder.ByteArrayToHex(stream);
         }
 
-        private static void FillFiles(Database database, string connectionString)
+        private void FillFiles(Database database, string connectionString)
         {
             if (database.Options.Ignore.FilterAssemblies)
             {
+                root.RaiseOnReading(new ProgressEventArgs("Reading assemblies...", Constants.READING_ASSEMBLIES));
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     using (SqlCommand command = new SqlCommand(GetSQLFiles(), conn))

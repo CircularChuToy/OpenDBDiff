@@ -94,59 +94,63 @@ namespace OpenDBDiff.SqlServer.Schema.Generates
             //1 & 2
             (new GenerateTables(this)).Fill(databaseSchema, ConnectionString, messages);
             //3
-            (new GenerateUserDataTypes(this)).Fill(databaseSchema, ConnectionString, messages);
-            //4
-            (new GenerateXMLSchemas(this)).Fill(databaseSchema, ConnectionString);
-            //5
-            (new GenerateSchemas(this)).Fill(databaseSchema, ConnectionString);
-            //6
-            (new GenerateUsers(this)).Fill(databaseSchema, ConnectionString);
-
-            //not supported in azure yet
-            if (databaseSchema.Info.Version != DatabaseInfo.SQLServerVersion.SQLServerAzure10)
-            {
-                //7
-                (new GeneratePartitionFunctions(this)).Fill(databaseSchema, ConnectionString);
-                //8
-                (new GeneratePartitionScheme(this)).Fill(databaseSchema, ConnectionString);
-                //9
-                (new GenerateFileGroups(this)).Fill(databaseSchema, ConnectionString);
-            }
-
-            //10
-            (new GenerateDDLTriggers(this)).Fill(databaseSchema, ConnectionString);
-            //11
-            (new GenerateSynonyms(this)).Fill(databaseSchema, ConnectionString);
-
-            //not supported in azure yet
-            if (databaseSchema.Info.Version != DatabaseInfo.SQLServerVersion.SQLServerAzure10)
-            {
-                //12
-                (new GenerateAssemblies(this)).Fill(databaseSchema, ConnectionString);
-                //
-                (new GenerateFullText(this)).Fill(databaseSchema, ConnectionString);
-            }
-
-            //13
-            (new GenerateStoredProcedures(this)).Fill(databaseSchema, ConnectionString);
-            //14
             (new GenerateViews(this)).Fill(databaseSchema, ConnectionString, messages);
-            //15
-            (new GenerateFunctions(this)).Fill(databaseSchema, ConnectionString);
-            //16
+
+            //4
             if (Options.Ignore.FilterIndex)
             {
                 (new GenerateIndex(this)).Fill(databaseSchema, ConnectionString);
                 (new GenerateFullTextIndex(this)).Fill(databaseSchema, ConnectionString);
             }
-            //17
+
+            //5
+            (new GenerateUserDataTypes(this)).Fill(databaseSchema, ConnectionString, messages);
+            //6
+            (new GenerateXMLSchemas(this)).Fill(databaseSchema, ConnectionString);
+            //7
+            (new GenerateSchemas(this)).Fill(databaseSchema, ConnectionString);
+
+            //not supported in azure yet
+            if (databaseSchema.Info.Version != DatabaseInfo.SQLServerVersion.SQLServerAzure10)
+            {
+                //8
+                (new GeneratePartitionFunctions(this)).Fill(databaseSchema, ConnectionString);
+                //9
+                (new GeneratePartitionScheme(this)).Fill(databaseSchema, ConnectionString);
+                //10
+                (new GenerateFileGroups(this)).Fill(databaseSchema, ConnectionString);
+            }
+
+            //11
+            (new GenerateDDLTriggers(this)).Fill(databaseSchema, ConnectionString);
+            //12
+            (new GenerateSynonyms(this)).Fill(databaseSchema, ConnectionString);
+
+            //not supported in azure yet
+            if (databaseSchema.Info.Version != DatabaseInfo.SQLServerVersion.SQLServerAzure10)
+            {
+                //13
+                (new GenerateAssemblies(this)).Fill(databaseSchema, ConnectionString);
+                //
+                (new GenerateFullText(this)).Fill(databaseSchema, ConnectionString);
+            }
+
+            //14
+            (new GenerateStoredProcedures(this)).Fill(databaseSchema, ConnectionString);
+            //15
+            (new GenerateFunctions(this)).Fill(databaseSchema, ConnectionString);
+            //16
             (new GenerateTriggers(this)).Fill(databaseSchema, ConnectionString, messages);
-            //18
+            //17
             (new GenerateTextObjects(this)).Fill(databaseSchema, ConnectionString);
+            //18
+            (new GenerateUsers(this)).Fill(databaseSchema, ConnectionString);
 
             if (String.IsNullOrEmpty(error))
             {
+                //19
                 /*Las propiedades extendidas deben ir despues de haber capturado el resto de los objetos de la base*/
+                /*Google Translate > Extended properties must go after the rest of the base objects have been captured*/
                 (new GenerateExtendedProperties(this)).Fill(databaseSchema, ConnectionString, messages);
                 databaseSchema.BuildDependency();
                 return databaseSchema;

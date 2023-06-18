@@ -1,4 +1,6 @@
 ﻿using System.Data.SqlClient;
+using OpenDBDiff.Abstractions.Schema.Events;
+using OpenDBDiff.SqlServer.Schema.Generates.Util;
 using OpenDBDiff.SqlServer.Schema.Model;
 
 namespace OpenDBDiff.SqlServer.Schema.Generates
@@ -23,6 +25,7 @@ namespace OpenDBDiff.SqlServer.Schema.Generates
             PartitionScheme item = null;
             if (database.Options.Ignore.FilterPartitionScheme)
             {
+                root.RaiseOnReading(new ProgressEventArgs("Reading partition schemes...", Constants.READING_PARTITIONSCHEME));
                 using (SqlConnection conn = new SqlConnection(connectioString))
                 {
                     using (SqlCommand command = new SqlCommand(GetSQL(), conn))
