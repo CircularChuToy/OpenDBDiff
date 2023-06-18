@@ -1,4 +1,6 @@
 using System.Data.SqlClient;
+using OpenDBDiff.Abstractions.Schema.Events;
+using OpenDBDiff.SqlServer.Schema.Generates.Util;
 using OpenDBDiff.SqlServer.Schema.Model;
 
 namespace OpenDBDiff.SqlServer.Schema.Generates
@@ -21,6 +23,7 @@ namespace OpenDBDiff.SqlServer.Schema.Generates
         {
             if (database.Options.Ignore.FilterDDLTriggers)
             {
+                root.RaiseOnReading(new ProgressEventArgs("Reading DDL triggers...", Constants.READING_DDLTRIGGERS));
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();

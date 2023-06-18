@@ -13,7 +13,7 @@
         public const int READING_PARTITIONFUNCTION = 8;
         public const int READING_PARTITIONSCHEME = 9;
         public const int READING_FILEGROUPS = 10;
-        public const int READING_DLLTRIGGERS = 11;
+        public const int READING_DDLTRIGGERS = 11;
         public const int READING_SYNONYMS = 12;
         public const int READING_ASSEMBLIES = 13;
         public const int READING_PROCEDURES = 14;
@@ -23,6 +23,5 @@
         public const int READING_USER = 18;
         public const int READING_EXTENDED_PROPERTIES = 19;
         public const int READING_MAX = 20;
-
     }
 }
